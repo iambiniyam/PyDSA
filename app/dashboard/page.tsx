@@ -31,7 +31,7 @@ export default function DashboardPage() {
                 <Home className="w-4 h-4" />
               </Button>
             </Link>
-            <Link href="https://github.com" target="_blank">
+            <Link href="https://github.com/iambiniyam/PyDSA" target="_blank">
               <Button variant="ghost" size="sm">
                 <Github className="w-4 h-4" />
               </Button>

@@ -26,7 +26,7 @@ export default function LandingPage() {
             PyDSA
           </Link>
           <div className="flex items-center gap-3">
-            <Link href="https://github.com" target="_blank" className="text-muted-foreground hover:text-foreground">
+            <Link href="https://github.com/iambiniyam/PyDSA" target="_blank" className="text-muted-foreground hover:text-foreground">
               <Github className="w-5 h-5" />
             </Link>
             <ThemeToggle />
@@ -132,7 +132,7 @@ export default function LandingPage() {
           <div className="max-w-4xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
             <div>© 2025 PyDSA. Free forever.</div>
             <div className="flex gap-6">
-              <Link href="https://github.com" target="_blank" className="hover:text-foreground">
+              <Link href="https://github.com/iambiniyam/PyDSA" target="_blank" className="hover:text-foreground">
                 GitHub
               </Link>
             </div>
