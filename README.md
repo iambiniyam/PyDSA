@@ -4,7 +4,7 @@
   
   **The best free, open source platform to master Data Structures & Algorithms with Python**
   
-  [Live Demo](https://pydsa.vercel.app) · [Documentation](#features) · [Report Bug](https://github.com/iambiniyam/PyDSA/issues)
+  [Live Demo](https://pydsa.dev/) · [Documentation](#features) · [Report Bug](https://github.com/iambiniyam/PyDSA/issues)
 
 ![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=flat-square&logo=typescript)
@@ -29,7 +29,7 @@
 - **Fully Responsive** - Works perfectly on mobile, tablet, and desktop
 - **Fast & Modern** - Built with Next.js 16, React 19, TypeScript, and Tailwind CSS 4
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -57,7 +57,7 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) to see the app.
 
-## ⚙️ Configuration
+## Configuration
 
 ### Environment Variables (Optional)
 
@@ -71,7 +71,7 @@ DASHSCOPE_API_KEY=your_aliyun_dashscope_api_key
 
 > **Note:** The platform works fully without any API keys. AI tutor is an optional enhancement powered by Aliyun's Qwen models.
 
-## 📚 Algorithms Included
+## Algorithms Included
 
 ### Searching Algorithms
 - Linear Search - O(n)
@@ -95,7 +95,7 @@ DASHSCOPE_API_KEY=your_aliyun_dashscope_api_key
 - Graph Traversal (BFS, DFS)
 - Dynamic Programming Algorithms
 
-## 🧪 Testing
+## Testing
 
 ```bash
 # Run all tests
@@ -114,7 +114,7 @@ pnpm type-check
 pnpm lint
 ```
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Framework:** Next.js 16 (App Router with Turbopack)
 - **Language:** TypeScript 5
@@ -137,7 +137,7 @@ Contributions are welcome! This is an open source project and we love community 
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [shadcn/ui](https://ui.shadcn.com/) for the beautiful UI components
 - [Aliyun DashScope](https://dashscope.console.aliyun.com/) for AI capabilities
