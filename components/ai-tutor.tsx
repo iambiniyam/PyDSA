@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import {
   Card,
   CardContent,
@@ -200,128 +202,43 @@ function parseCodeBlocks(content: string): {
 }
 
 function MessageContent({ content }: { content: string }) {
-  const parts = content.split(/(```\w*\n[\s\S]*?```)/g);
-
   return (
-    <div className="text-sm leading-relaxed">
-      {parts.map((part, index) => {
-        const codeMatch = part.match(/```(\w+)?\n([\s\S]*?)```/);
-        if (codeMatch) {
-          return (
-            <CodeBlock
-              key={index}
-              language={codeMatch[1] || "python"}
-              code={codeMatch[2]}
-            />
-          );
-        }
+    <div className="text-sm leading-relaxed prose prose-sm dark:prose-invert max-w-none
+      prose-headings:font-semibold prose-headings:text-foreground
+      prose-h1:text-lg prose-h1:mt-4 prose-h1:mb-2
+      prose-h2:text-base prose-h2:mt-4 prose-h2:mb-2
+      prose-h3:text-sm prose-h3:mt-3 prose-h3:mb-1
+      prose-p:my-1.5 prose-p:text-foreground
+      prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+      prose-strong:font-semibold prose-strong:text-foreground
+      prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-xs prose-code:font-mono prose-code:text-primary prose-code:before:content-none prose-code:after:content-none
+      prose-pre:p-0 prose-pre:bg-transparent
+      prose-ul:my-1 prose-ul:ml-1 prose-ol:my-1 prose-ol:ml-1
+      prose-li:my-0.5
+      prose-blockquote:border-l-2 prose-blockquote:border-primary/50 prose-blockquote:pl-3 prose-blockquote:my-2 prose-blockquote:text-muted-foreground prose-blockquote:italic
+      prose-table:text-xs prose-th:px-3 prose-th:py-1.5 prose-th:bg-muted/50 prose-td:px-3 prose-td:py-1.5 prose-td:border prose-th:border"
+    >
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        components={{
+          code({ className, children, ...props }) {
+            const match = /language-(\w+)/.exec(className || "");
+            const code = String(children).replace(/\n$/, "");
 
-        return (
-          <div key={index}>
-            {part.split("\n").map((line, lineIndex) => {
-              const trimmed = line.trim();
-              if (!trimmed) return <div key={lineIndex} className="h-2" />;
+            if (match) {
+              return <CodeBlock language={match[1]} code={code} />;
+            }
 
-              // Headers
-              if (trimmed.startsWith("## ")) {
-                return (
-                  <h2 key={lineIndex} className="text-base font-semibold mt-4 mb-2 text-foreground">
-                    {trimmed.slice(3)}
-                  </h2>
-                );
-              }
-              if (trimmed.startsWith("### ")) {
-                return (
-                  <h3 key={lineIndex} className="text-sm font-semibold mt-3 mb-1 text-foreground">
-                    {trimmed.slice(4)}
-                  </h3>
-                );
-              }
-
-              // Format inline elements
-              const formatText = (text: string): React.ReactNode[] => {
-                const result: React.ReactNode[] = [];
-                let remaining = text;
-                let key = 0;
-
-                while (remaining.length > 0) {
-                  // Bold **text**
-                  const boldMatch = remaining.match(/^\*\*(.+?)\*\*/);
-                  if (boldMatch) {
-                    result.push(<strong key={key++} className="font-semibold">{boldMatch[1]}</strong>);
-                    remaining = remaining.slice(boldMatch[0].length);
-                    continue;
-                  }
-
-                  // Inline code `text`
-                  const codeMatch = remaining.match(/^`([^`]+)`/);
-                  if (codeMatch) {
-                    result.push(
-                      <code key={key++} className="bg-muted px-1.5 py-0.5 rounded text-xs font-mono text-primary">
-                        {codeMatch[1]}
-                      </code>
-                    );
-                    remaining = remaining.slice(codeMatch[0].length);
-                    continue;
-                  }
-
-                  // Regular character
-                  const nextSpecial = remaining.search(/\*\*|`/);
-                  if (nextSpecial === -1) {
-                    result.push(remaining);
-                    break;
-                  } else if (nextSpecial === 0) {
-                    result.push(remaining[0]);
-                    remaining = remaining.slice(1);
-                  } else {
-                    result.push(remaining.slice(0, nextSpecial));
-                    remaining = remaining.slice(nextSpecial);
-                  }
-                }
-
-                return result;
-              };
-
-              // Bullet list
-              if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
-                return (
-                  <div key={lineIndex} className="flex gap-2 my-1 ml-1">
-                    <span className="text-muted-foreground">•</span>
-                    <span>{formatText(trimmed.slice(2))}</span>
-                  </div>
-                );
-              }
-
-              // Numbered list
-              const numMatch = trimmed.match(/^(\d+)\.\s(.+)/);
-              if (numMatch) {
-                return (
-                  <div key={lineIndex} className="flex gap-2 my-1 ml-1">
-                    <span className="text-muted-foreground w-4">{numMatch[1]}.</span>
-                    <span>{formatText(numMatch[2])}</span>
-                  </div>
-                );
-              }
-
-              // Complexity notation O(...)
-              if (trimmed.match(/^(Time|Space|Complexity):/i)) {
-                return (
-                  <div key={lineIndex} className="my-2 p-2 bg-muted/50 rounded-md border">
-                    <span className="text-xs font-medium">{formatText(trimmed)}</span>
-                  </div>
-                );
-              }
-
-              // Regular paragraph
-              return (
-                <p key={lineIndex} className="my-1.5">
-                  {formatText(trimmed)}
-                </p>
-              );
-            })}
-          </div>
-        );
-      })}
+            return (
+              <code className={className} {...props}>
+                {children}
+              </code>
+            );
+          },
+        }}
+      >
+        {content}
+      </ReactMarkdown>
     </div>
   );
 }
